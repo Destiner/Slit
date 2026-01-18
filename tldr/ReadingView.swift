@@ -42,21 +42,25 @@ struct ReadingView: View {
     }
 
     var body: some View {
-        ZStack {
-            Text(currentWord)
-                .font(.system(size: 48, weight: .medium))
-                .multilineTextAlignment(.center)
-                .opacity(isFinished ? 0.6 : 1.0)
-
-            if isPaused && !previousWordsText.isEmpty {
+        VStack(spacing: 24) {
+            VStack {
+                Spacer()
                 Text(previousWordsText)
                     .font(.system(size: 18))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
-                    .offset(y: -120)
-                    .transition(.opacity)
+                    .opacity(isPaused && !previousWordsText.isEmpty ? 1 : 0)
             }
+            .frame(height: 160)
+
+            Text(currentWord)
+                .font(.system(size: 48, weight: .medium))
+                .multilineTextAlignment(.center)
+                .opacity(isFinished ? 0.6 : 1.0)
+
+            Spacer()
+                .frame(height: 160 + 24)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .contentShape(Rectangle())
