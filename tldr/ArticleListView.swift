@@ -158,7 +158,7 @@ struct ArticleListView: View {
                 article.title = content.title ?? metadata?.title ?? url.host ?? "Untitled"
                 article.author = content.author
                 article.coverImageUrl = metadata?.heroImage?.absoluteString
-                article.content = content.extractPlainText
+                article.content = content.extractedText
             } catch let urlError as URLError {
                 modelContext.delete(article)
                 switch urlError.code {
