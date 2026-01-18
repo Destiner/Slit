@@ -12,6 +12,8 @@ import SwiftData
 final class Article {
     var url: URL?
     var title: String
+    var author: String?
+    var coverImageUrl: String?
     var content: String
     var createdAt: Date
     var readingProgress: Int
@@ -22,5 +24,14 @@ final class Article {
         self.content = content
         self.createdAt = .now
         self.readingProgress = 0
+    }
+
+    var wordCount: Int {
+        content.split(separator: " ").count
+    }
+
+    var progress: Double {
+        guard wordCount > 0 else { return 0 }
+        return Double(readingProgress) / Double(wordCount)
     }
 }
