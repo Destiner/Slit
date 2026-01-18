@@ -13,7 +13,7 @@ struct ReadingView: View {
     let wordsPerMinute: Double = 300
 
     @State private var currentWordIndex: Int = 0
-    @State private var isPaused: Bool = false
+    @State private var isPaused: Bool = true
     @State private var isFinished: Bool = false
     @State private var timer: Timer?
     @State private var isHolding: Bool = false
@@ -128,8 +128,9 @@ struct ReadingView: View {
             if currentWordIndex < words.count - 1 {
                 scheduleNextWord()
             } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     isFinished = true
+                    isPaused = true
                     article.readAt = .now
                 }
             }
