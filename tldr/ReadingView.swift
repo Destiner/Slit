@@ -19,13 +19,13 @@ struct ReadingView: View {
         WordSplitter.split(text)
     }
 
+    private var pacer: ReadingPacer {
+        ReadingPacer(words: words, baseWPM: wordsPerMinute)
+    }
+
     private var currentWord: String {
         guard currentWordIndex < words.count else { return "" }
         return words[currentWordIndex]
-    }
-
-    private var intervalSeconds: Double {
-        60.0 / wordsPerMinute
     }
 
     var body: some View {
@@ -50,9 +50,17 @@ struct ReadingView: View {
     }
 
     private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: intervalSeconds, repeats: true) { _ in
+        scheduleNextWord()
+    }
+
+    private func scheduleNextWord() {
+        let interval = pacer.interval(for: currentWordIndex)
+        timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { _ in
             if !isPaused {
                 advanceWord()
+            }
+            if currentWordIndex < words.count - 1 {
+                scheduleNextWord()
             }
         }
     }
