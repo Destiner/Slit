@@ -13,6 +13,7 @@ struct ReadingView: View {
 
     @State private var currentWordIndex: Int = 0
     @State private var isPaused: Bool = false
+    @State private var isFinished: Bool = false
     @State private var timer: Timer?
 
     private var words: [String] {
@@ -32,6 +33,7 @@ struct ReadingView: View {
         Text(currentWord)
             .font(.system(size: 48, weight: .medium))
             .multilineTextAlignment(.center)
+            .opacity(isFinished ? 0.6 : 1.0)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .ignoresSafeArea()
             .overlay(alignment: .bottom) {
@@ -61,6 +63,10 @@ struct ReadingView: View {
             }
             if currentWordIndex < words.count - 1 {
                 scheduleNextWord()
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isFinished = true
+                }
             }
         }
     }
