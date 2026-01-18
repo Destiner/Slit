@@ -65,8 +65,6 @@ struct ReadingView: View {
     private func advanceWord() {
         if currentWordIndex < words.count - 1 {
             currentWordIndex += 1
-        } else {
-            currentWordIndex = 0
         }
     }
 
