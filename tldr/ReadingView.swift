@@ -34,13 +34,33 @@ struct ReadingView: View {
         return words[currentWordIndex]
     }
 
+    private var previousWordsText: String {
+        let startIndex = max(0, currentWordIndex - 40)
+        let endIndex = currentWordIndex
+        guard startIndex < endIndex else { return "" }
+        return words[startIndex..<endIndex].joined(separator: " ")
+    }
+
     var body: some View {
-        Text(currentWord)
-            .font(.system(size: 48, weight: .medium))
-            .multilineTextAlignment(.center)
-            .opacity(isFinished ? 0.6 : 1.0)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .contentShape(Rectangle())
+        ZStack {
+            Text(currentWord)
+                .font(.system(size: 48, weight: .medium))
+                .multilineTextAlignment(.center)
+                .opacity(isFinished ? 0.6 : 1.0)
+
+            if isPaused && !previousWordsText.isEmpty {
+                Text(previousWordsText)
+                    .font(.system(size: 18))
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 32)
+                    .offset(y: -120)
+                    .transition(.opacity)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contentShape(Rectangle())
+        .animation(.easeInOut(duration: 0.2), value: isPaused)
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { _ in
