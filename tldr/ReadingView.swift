@@ -5,10 +5,11 @@
 //  Created by Timur Badretdinov on 18/01/2026.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ReadingView: View {
-    let text: String
+    @Bindable var article: Article
     let wordsPerMinute: Double = 300
 
     @State private var currentWordIndex: Int = 0
@@ -17,7 +18,7 @@ struct ReadingView: View {
     @State private var timer: Timer?
 
     private var words: [String] {
-        WordSplitter.split(text)
+        WordSplitter.split(article.content)
     }
 
     private var pacer: ReadingPacer {
@@ -44,10 +45,12 @@ struct ReadingView: View {
                 .padding(.bottom, 50)
             }
         .onAppear {
+            currentWordIndex = article.readingProgress
             startTimer()
         }
         .onDisappear {
             stopTimer()
+            saveProgress()
         }
     }
 
@@ -84,11 +87,20 @@ struct ReadingView: View {
 
     private func togglePause() {
         isPaused.toggle()
+        if isPaused {
+            saveProgress()
+        }
+    }
+
+    private func saveProgress() {
+        article.readingProgress = currentWordIndex
     }
 }
 
 #Preview {
-    NavigationStack {
-        ReadingView(text: "This is a sample text for testing the speed reading view.")
+    let article = Article(title: "Sample", content: "This is a sample text for testing the speed reading view.")
+    return NavigationStack {
+        ReadingView(article: article)
     }
+    .modelContainer(for: Article.self, inMemory: true)
 }

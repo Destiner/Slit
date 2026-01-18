@@ -14,11 +14,13 @@ final class Article {
     var title: String
     var content: String
     var createdAt: Date
+    var readingProgress: Int
 
     init(url: URL? = nil, title: String, content: String = "") {
         self.url = url
         self.title = title
         self.content = content
         self.createdAt = .now
+        self.readingProgress = 0
     }
 }

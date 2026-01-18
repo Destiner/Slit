@@ -22,7 +22,7 @@ struct ArticleListView: View {
 
     var body: some View {
         List(articles) { article in
-            NavigationLink(destination: ReadingView(text: article.content)) {
+            NavigationLink(destination: ReadingView(article: article)) {
                 Text(article.title)
                     .lineLimit(2)
             }
