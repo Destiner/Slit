@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    private let article = ArticleStore.shared.articles[0]
-
     var body: some View {
         NavigationStack {
-            ReadingView(text: article.content)
+            ArticleListView()
         }
     }
 }
