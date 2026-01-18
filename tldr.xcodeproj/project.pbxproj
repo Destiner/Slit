@@ -11,6 +11,25 @@
 		51C5B5D02F1D0200008334BD /* tldrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tldrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		51C5B5E02F1D0300008334BD /* XCRemoteSwiftPackageReference "reeeed" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nate-parrott/reeeed";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		51C5B5E12F1D0300008334BD /* Reeeed */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51C5B5E02F1D0300008334BD /* XCRemoteSwiftPackageReference "reeeed" */;
+			productName = Reeeed;
+		};
+/* End XCSwiftPackageProductDependency section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		51C5B5B82F1D00AA008334BD /* tldr */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -98,6 +117,7 @@
 			);
 			name = tldr;
 			packageProductDependencies = (
+				51C5B5E12F1D0300008334BD /* Reeeed */,
 			);
 			productName = tldr;
 			productReference = 51C5B5B62F1D00AA008334BD /* tldr.app */;
@@ -151,6 +171,9 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 51C5B5B72F1D00AA008334BD /* Products */;
 			projectDirPath = "";
+			packageReferences = (
+				51C5B5E02F1D0300008334BD /* XCRemoteSwiftPackageReference "reeeed" */,
+			);
 			projectRoot = "";
 			targets = (
 				51C5B5B52F1D00AA008334BD /* tldr */,

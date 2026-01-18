@@ -6,15 +6,19 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Article: Identifiable {
-    let id: UUID
-    let title: String
-    let content: String
+@Model
+final class Article {
+    var url: URL?
+    var title: String
+    var content: String
+    var createdAt: Date
 
-    init(id: UUID = UUID(), title: String, content: String) {
-        self.id = id
+    init(url: URL? = nil, title: String, content: String = "") {
+        self.url = url
         self.title = title
         self.content = content
+        self.createdAt = .now
     }
 }

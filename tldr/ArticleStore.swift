@@ -6,14 +6,18 @@
 //
 
 import Foundation
+import SwiftData
 
-class ArticleStore {
-    static let shared = ArticleStore()
+enum ArticleStore {
+    static func seedInitialArticles(context: ModelContext) {
+        let descriptor = FetchDescriptor<Article>()
+        let count = (try? context.fetchCount(descriptor)) ?? 0
+        guard count == 0 else { return }
 
-    let articles: [Article] = [
-        Article(
-            title: "you have three minutes to escape the perpetual underclass",
-            content: """
+        let articles = [
+            Article(
+                title: "you have three minutes to escape the perpetual underclass",
+                content: """
 you have three minutes to escape the perpetual underclass
 Jan 17, 2026
 
@@ -33,8 +37,11 @@ If you work at a large company, if you work according to the principles of moder
 
 Have you considered not participating? If you participate, we all lose. We will either all be in the underclass together or not.
 """
-        )
-    ]
+            )
+        ]
 
-    private init() {}
+        for article in articles {
+            context.insert(article)
+        }
+    }
 }
