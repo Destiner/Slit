@@ -16,6 +16,10 @@ struct ReadingView: View {
     @State private var isPaused: Bool = false
     @State private var isFinished: Bool = false
     @State private var timer: Timer?
+    @State private var isHolding: Bool = false
+    @State private var wasPlayingBeforeHold: Bool = false
+    @State private var pressStartTime: Date?
+    @State private var wordsSinceResume: Int = 0
 
     private var words: [String] {
         WordSplitter.split(article.content)
@@ -36,13 +40,48 @@ struct ReadingView: View {
             .multilineTextAlignment(.center)
             .opacity(isFinished ? 0.6 : 1.0)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in
+                        if !isHolding {
+                            isHolding = true
+                            pressStartTime = Date()
+                            wasPlayingBeforeHold = !isPaused
+                            if !isPaused {
+                                isPaused = true
+                            }
+                        }
+                    }
+                    .onEnded { _ in
+                        let pressDuration = Date().timeIntervalSince(pressStartTime ?? Date())
+                        isHolding = false
+                        pressStartTime = nil
+
+                        if pressDuration < 0.2 {
+                            // Short tap - toggle pause permanently
+                            if wasPlayingBeforeHold {
+                                // Was playing, now stay paused (we already paused in onChanged)
+                            } else {
+                                // Was paused, resume
+                                wordsSinceResume = 0
+                                isPaused = false
+                            }
+                        } else {
+                            // Long press - restore previous state
+                            if wasPlayingBeforeHold {
+                                wordsSinceResume = 0
+                                isPaused = false
+                            }
+                        }
+                    }
+            )
             .ignoresSafeArea()
             .overlay(alignment: .bottom) {
-                Button(action: togglePause) {
-                    Image(systemName: isPaused ? "play.fill" : "pause.fill")
-                        .font(.system(size: 24))
-                }
-                .padding(.bottom, 50)
+                Image(systemName: isPaused ? "play.fill" : "pause.fill")
+                    .font(.system(size: 24))
+                    .foregroundStyle(.secondary)
+                    .padding(.bottom, 50)
             }
         .onAppear {
             currentWordIndex = article.readingProgress
@@ -60,10 +99,11 @@ struct ReadingView: View {
     }
 
     private func scheduleNextWord() {
-        let interval = pacer.interval(for: currentWordIndex)
+        let interval = pacer.interval(for: currentWordIndex, rampIndex: wordsSinceResume)
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { _ in
             if !isPaused {
                 advanceWord()
+                wordsSinceResume += 1
             }
             if currentWordIndex < words.count - 1 {
                 scheduleNextWord()

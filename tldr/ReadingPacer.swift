@@ -17,7 +17,10 @@ struct ReadingPacer {
     }
 
     /// Returns the interval in seconds for displaying the word at the given index
-    func interval(for index: Int) -> Double {
+    /// - Parameters:
+    ///   - index: The word index in the article
+    ///   - rampIndex: The index to use for ramp-up calculation (e.g., words since resume)
+    func interval(for index: Int, rampIndex: Int? = nil) -> Double {
         guard !words.isEmpty, index >= 0, index < words.count else {
             return baseInterval
         }
@@ -25,8 +28,8 @@ struct ReadingPacer {
         let word = words[index]
         var multiplier = 1.0
 
-        // Ramp up: slower at the start (first 5 words)
-        multiplier *= rampUpMultiplier(for: index)
+        // Ramp up: slower at the start (first 5 words since resume)
+        multiplier *= rampUpMultiplier(for: rampIndex ?? index)
 
         // Slow down: slower at the end (last 5 words)
         multiplier *= rampDownMultiplier(for: index)
