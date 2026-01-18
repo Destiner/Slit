@@ -21,8 +21,9 @@ struct ArticleListView: View {
     }
 
     var body: some View {
-        List(articles) { article in
-            NavigationLink(destination: ReadingView(article: article)) {
+        List {
+            ForEach(articles) { article in
+                NavigationLink(destination: ReadingView(article: article)) {
                 HStack(spacing: 12) {
                     if let coverImageUrl = article.coverImageUrl {
                         AsyncImage(url: URL(string: coverImageUrl)) { image in
@@ -70,6 +71,8 @@ struct ArticleListView: View {
                     }
                 }
             }
+            }
+            .onDelete(perform: deleteArticles)
         }
         .navigationTitle("Articles")
         .toolbar {
@@ -89,6 +92,12 @@ struct ArticleListView: View {
             Button("Cancel", role: .cancel) { urlString = "" }
             Button("Add", action: addURL)
                 .disabled(!isValidURL)
+        }
+    }
+
+    private func deleteArticles(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(articles[index])
         }
     }
 
