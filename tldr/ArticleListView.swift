@@ -11,7 +11,16 @@ import Reeeed
 
 struct ArticleListView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Article.createdAt, order: .reverse) private var articles: [Article]
+    @Query private var articles: [Article]
+
+    private var sortedArticles: [Article] {
+        articles.sorted { a, b in
+            if a.readingStatus.sortOrder != b.readingStatus.sortOrder {
+                return a.readingStatus.sortOrder < b.readingStatus.sortOrder
+            }
+            return a.sortDate > b.sortDate
+        }
+    }
 
     @State private var showAddAlert = false
     @State private var urlString = ""
@@ -24,7 +33,7 @@ struct ArticleListView: View {
 
     var body: some View {
         List {
-            ForEach(articles) { article in
+            ForEach(sortedArticles) { article in
                 NavigationLink(destination: ReadingView(article: article)) {
                 HStack(spacing: 12) {
                     if let coverImageUrl = article.coverImageUrl {
@@ -104,7 +113,7 @@ struct ArticleListView: View {
 
     private func deleteArticles(at offsets: IndexSet) {
         for index in offsets {
-            modelContext.delete(articles[index])
+            modelContext.delete(sortedArticles[index])
         }
     }
 

@@ -17,6 +17,8 @@ final class Article {
     var content: String
     var createdAt: Date
     var readingProgress: Int
+    var lastOpenedAt: Date?
+    var readAt: Date?
 
     init(url: URL? = nil, title: String, content: String = "") {
         self.url = url
@@ -24,6 +26,43 @@ final class Article {
         self.content = content
         self.createdAt = .now
         self.readingProgress = 0
+        self.lastOpenedAt = nil
+        self.readAt = nil
+    }
+
+    enum ReadingStatus: Comparable {
+        case inProgress
+        case unread
+        case read
+
+        var sortOrder: Int {
+            switch self {
+            case .inProgress: return 0
+            case .unread: return 1
+            case .read: return 2
+            }
+        }
+    }
+
+    var readingStatus: ReadingStatus {
+        if readAt != nil {
+            return .read
+        } else if readingProgress > 0 {
+            return .inProgress
+        } else {
+            return .unread
+        }
+    }
+
+    var sortDate: Date {
+        switch readingStatus {
+        case .inProgress:
+            return lastOpenedAt ?? createdAt
+        case .unread:
+            return createdAt
+        case .read:
+            return readAt ?? createdAt
+        }
     }
 
     var wordCount: Int {

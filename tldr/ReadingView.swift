@@ -46,6 +46,7 @@ struct ReadingView: View {
             }
         .onAppear {
             currentWordIndex = article.readingProgress
+            article.lastOpenedAt = .now
             startTimer()
         }
         .onDisappear {
@@ -69,6 +70,7 @@ struct ReadingView: View {
             } else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     isFinished = true
+                    article.readAt = .now
                 }
             }
         }
