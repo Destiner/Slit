@@ -24,9 +24,6 @@ struct tldrApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onAppear {
-                    ArticleStore.seedInitialArticles(context: sharedModelContainer.mainContext)
-                }
         }
         .modelContainer(sharedModelContainer)
     }
