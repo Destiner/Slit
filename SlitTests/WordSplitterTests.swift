@@ -1,12 +1,12 @@
 //
 //  WordSplitterTests.swift
-//  tldrTests
+//  SlitTests
 //
 //  Created by Timur Badretdinov on 18/01/2026.
 //
 
 import Testing
-@testable import tldr
+@testable import Slit
 
 struct WordSplitterTests {
     @Test func splitsSimpleText() {

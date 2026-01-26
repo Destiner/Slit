@@ -1,6 +1,6 @@
 //
-//  tldrApp.swift
-//  tldr
+//  SlitApp.swift
+//  Slit
 //
 //  Created by Timur Badretdinov on 18/01/2026.
 //
@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct tldrApp: App {
+struct SlitApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([Article.self])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)

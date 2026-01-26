@@ -1,6 +1,6 @@
 //
 //  HTMLTextExtractor.swift
-//  tldr
+//  Slit
 //
 //  Created by Timur Badretdinov on 18/01/2026.
 //

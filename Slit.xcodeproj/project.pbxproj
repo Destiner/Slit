@@ -6,39 +6,34 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		51D3160F2F282CC200FF80FD /* Reeeed in Frameworks */ = {isa = PBXBuildFile; productRef = 51C5B5E12F1D0300008334BD /* Reeeed */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		51C5B5D32F1D0200008334BD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 51C5B5AE2F1D00AA008334BD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 51C5B5B52F1D00AA008334BD;
+			remoteInfo = Slit;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		51C5B5B62F1D00AA008334BD /* tldr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tldr.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		51C5B5D02F1D0200008334BD /* tldrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tldrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		51C5B5B62F1D00AA008334BD /* Slit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Slit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		51C5B5D02F1D0200008334BD /* SlitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SlitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		51C5B5E02F1D0300008334BD /* XCRemoteSwiftPackageReference "reeeed" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/nate-parrott/reeeed";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		51C5B5E12F1D0300008334BD /* Reeeed */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 51C5B5E02F1D0300008334BD /* XCRemoteSwiftPackageReference "reeeed" */;
-			productName = Reeeed;
-		};
-/* End XCSwiftPackageProductDependency section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		51C5B5B82F1D00AA008334BD /* tldr */ = {
+		51C5B5B82F1D00AA008334BD /* Slit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = tldr;
+			path = Slit;
 			sourceTree = "<group>";
 		};
-		51C5B5D12F1D0200008334BD /* tldrTests */ = {
+		51C5B5D12F1D0200008334BD /* SlitTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = tldrTests;
+			path = SlitTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -48,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51D3160F2F282CC200FF80FD /* Reeeed in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,8 +60,8 @@
 		51C5B5AD2F1D00AA008334BD = {
 			isa = PBXGroup;
 			children = (
-				51C5B5B82F1D00AA008334BD /* tldr */,
-				51C5B5D12F1D0200008334BD /* tldrTests */,
+				51C5B5B82F1D00AA008334BD /* Slit */,
+				51C5B5D12F1D0200008334BD /* SlitTests */,
 				51C5B5B72F1D00AA008334BD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,36 +69,18 @@
 		51C5B5B72F1D00AA008334BD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				51C5B5B62F1D00AA008334BD /* tldr.app */,
-				51C5B5D02F1D0200008334BD /* tldrTests.xctest */,
+				51C5B5B62F1D00AA008334BD /* Slit.app */,
+				51C5B5D02F1D0200008334BD /* SlitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
-/* Begin PBXContainerItemProxy section */
-		51C5B5D32F1D0200008334BD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 51C5B5AE2F1D00AA008334BD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 51C5B5B52F1D00AA008334BD;
-			remoteInfo = tldr;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXTargetDependency section */
-		51C5B5D42F1D0200008334BD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 51C5B5B52F1D00AA008334BD /* tldr */;
-			targetProxy = 51C5B5D32F1D0200008334BD /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXNativeTarget section */
-		51C5B5B52F1D00AA008334BD /* tldr */ = {
+		51C5B5B52F1D00AA008334BD /* Slit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 51C5B5C12F1D00AC008334BD /* Build configuration list for PBXNativeTarget "tldr" */;
+			buildConfigurationList = 51C5B5C12F1D00AC008334BD /* Build configuration list for PBXNativeTarget "Slit" */;
 			buildPhases = (
 				51C5B5B22F1D00AA008334BD /* Sources */,
 				51C5B5B32F1D00AA008334BD /* Frameworks */,
@@ -113,19 +91,19 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				51C5B5B82F1D00AA008334BD /* tldr */,
+				51C5B5B82F1D00AA008334BD /* Slit */,
 			);
-			name = tldr;
+			name = Slit;
 			packageProductDependencies = (
 				51C5B5E12F1D0300008334BD /* Reeeed */,
 			);
-			productName = tldr;
-			productReference = 51C5B5B62F1D00AA008334BD /* tldr.app */;
+			productName = Slit;
+			productReference = 51C5B5B62F1D00AA008334BD /* Slit.app */;
 			productType = "com.apple.product-type.application";
 		};
-		51C5B5D52F1D0200008334BD /* tldrTests */ = {
+		51C5B5D52F1D0200008334BD /* SlitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 51C5B5D62F1D0200008334BD /* Build configuration list for PBXNativeTarget "tldrTests" */;
+			buildConfigurationList = 51C5B5D62F1D0200008334BD /* Build configuration list for PBXNativeTarget "SlitTests" */;
 			buildPhases = (
 				51C5B5D72F1D0200008334BD /* Sources */,
 				51C5B5D22F1D0200008334BD /* Frameworks */,
@@ -137,11 +115,11 @@
 				51C5B5D42F1D0200008334BD /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				51C5B5D12F1D0200008334BD /* tldrTests */,
+				51C5B5D12F1D0200008334BD /* SlitTests */,
 			);
-			name = tldrTests;
-			productName = tldrTests;
-			productReference = 51C5B5D02F1D0200008334BD /* tldrTests.xctest */;
+			name = SlitTests;
+			productName = SlitTests;
+			productReference = 51C5B5D02F1D0200008334BD /* SlitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -159,7 +137,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 51C5B5B12F1D00AA008334BD /* Build configuration list for PBXProject "tldr" */;
+			buildConfigurationList = 51C5B5B12F1D00AA008334BD /* Build configuration list for PBXProject "Slit" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -168,16 +146,16 @@
 			);
 			mainGroup = 51C5B5AD2F1D00AA008334BD;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
-			productRefGroup = 51C5B5B72F1D00AA008334BD /* Products */;
-			projectDirPath = "";
 			packageReferences = (
 				51C5B5E02F1D0300008334BD /* XCRemoteSwiftPackageReference "reeeed" */,
 			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 51C5B5B72F1D00AA008334BD /* Products */;
+			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				51C5B5B52F1D00AA008334BD /* tldr */,
-				51C5B5D52F1D0200008334BD /* tldrTests */,
+				51C5B5B52F1D00AA008334BD /* Slit */,
+				51C5B5D52F1D0200008334BD /* SlitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -215,6 +193,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		51C5B5D42F1D0200008334BD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 51C5B5B52F1D00AA008334BD /* Slit */;
+			targetProxy = 51C5B5D32F1D0200008334BD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		51C5B5BF2F1D00AC008334BD /* Debug */ = {
@@ -336,7 +322,7 @@
 		51C5B5C22F1D00AC008334BD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -361,7 +347,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = DestinerLabs.tldr;
+				PRODUCT_BUNDLE_IDENTIFIER = DestinerLabs.Slit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -380,7 +366,7 @@
 		51C5B5C32F1D00AC008334BD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -405,7 +391,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = DestinerLabs.tldr;
+				PRODUCT_BUNDLE_IDENTIFIER = DestinerLabs.Slit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -430,18 +416,24 @@
 				DEVELOPMENT_TEAM = HQR74263JL;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks @loader_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = DestinerLabs.tldrTests;
+				PRODUCT_BUNDLE_IDENTIFIER = DestinerLabs.SlitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tldr.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/tldr";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Slit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Slit";
 			};
 			name = Debug;
 		};
@@ -454,25 +446,31 @@
 				DEVELOPMENT_TEAM = HQR74263JL;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks @loader_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = DestinerLabs.tldrTests;
+				PRODUCT_BUNDLE_IDENTIFIER = DestinerLabs.SlitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/tldr.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/tldr";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Slit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Slit";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		51C5B5B12F1D00AA008334BD /* Build configuration list for PBXProject "tldr" */ = {
+		51C5B5B12F1D00AA008334BD /* Build configuration list for PBXProject "Slit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				51C5B5BF2F1D00AC008334BD /* Debug */,
@@ -481,7 +479,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		51C5B5C12F1D00AC008334BD /* Build configuration list for PBXNativeTarget "tldr" */ = {
+		51C5B5C12F1D00AC008334BD /* Build configuration list for PBXNativeTarget "Slit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				51C5B5C22F1D00AC008334BD /* Debug */,
@@ -490,7 +488,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		51C5B5D62F1D0200008334BD /* Build configuration list for PBXNativeTarget "tldrTests" */ = {
+		51C5B5D62F1D0200008334BD /* Build configuration list for PBXNativeTarget "SlitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				51C5B5D92F1D0200008334BD /* Debug */,
@@ -500,6 +498,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		51C5B5E02F1D0300008334BD /* XCRemoteSwiftPackageReference "reeeed" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nate-parrott/reeeed";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		51C5B5E12F1D0300008334BD /* Reeeed */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51C5B5E02F1D0300008334BD /* XCRemoteSwiftPackageReference "reeeed" */;
+			productName = Reeeed;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 51C5B5AE2F1D00AA008334BD /* Project object */;
 }

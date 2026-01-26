@@ -1,13 +1,13 @@
 //
 //  HTMLTextExtractorTests.swift
-//  tldrTests
+//  SlitTests
 //
 //  Tests for the fixed HTML text extraction that properly preserves word boundaries
 //
 
 import Testing
 import Foundation
-@testable import tldr
+@testable import Slit
 import Reeeed
 
 struct HTMLTextExtractorTests {
