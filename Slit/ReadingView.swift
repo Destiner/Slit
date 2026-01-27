@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ReadingView: View {
     @Bindable var article: Article
+    @Environment(\.scenePhase) private var scenePhase
     let wordsPerMinute: Double = 300
 
     @State private var currentWordIndex: Int = 0
@@ -116,6 +117,16 @@ struct ReadingView: View {
             stopTimer()
             saveProgress()
         }
+        .onChange(of: isPaused) { _, paused in
+            if paused {
+                saveProgress()
+            }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .background || phase == .inactive {
+                saveProgress()
+            }
+        }
     }
 
     private func startTimer() {
@@ -149,13 +160,6 @@ struct ReadingView: View {
     private func advanceWord() {
         if currentWordIndex < words.count - 1 {
             currentWordIndex += 1
-        }
-    }
-
-    private func togglePause() {
-        isPaused.toggle()
-        if isPaused {
-            saveProgress()
         }
     }
 
