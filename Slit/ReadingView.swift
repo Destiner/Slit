@@ -35,7 +35,7 @@ struct ReadingView: View {
     }
 
     private var previousWordsText: String {
-        let startIndex = max(0, currentWordIndex - 40)
+        let startIndex = max(0, currentWordIndex - 25)
         let endIndex = currentWordIndex
         guard startIndex < endIndex else { return "" }
         return words[startIndex..<endIndex].joined(separator: " ")
