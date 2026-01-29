@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftData
-import Reeeed
 
 struct ArticleListView: View {
     @Environment(\.modelContext) private var modelContext
@@ -125,58 +124,7 @@ struct ArticleListView: View {
         modelContext.insert(article)
 
         Task {
-            // Warm up extractors on main thread before starting
-            await MainActor.run {
-                Reeeed.warmup(extractor: .mercury)
-                Reeeed.warmup(extractor: .readability)
-            }
-
-            // Delay to let WebViews initialize (Reeeed library limitation)
-            try? await Task.sleep(nanoseconds: 500_000_000)
-
-            do {
-                // Fetch HTML
-                let (data, response) = try await URLSession.shared.data(from: url)
-                guard let html = String(data: data, encoding: .utf8) else {
-                    throw URLError(.cannotDecodeContentData)
-                }
-                let baseURL = response.url ?? url
-
-                // Try Mercury first, then Readability as fallback
-                var extractedContent: ExtractedContent?
-                extractedContent = try? await Reeeed.extractArticleContent(url: baseURL, html: html, extractor: .mercury)
-                if extractedContent?.content == nil {
-                    extractedContent = try? await Reeeed.extractArticleContent(url: baseURL, html: html, extractor: .readability)
-                }
-
-                guard let content = extractedContent, content.content != nil else {
-                    throw URLError(.cannotParseResponse)
-                }
-
-                let metadata = try? await SiteMetadata.extractMetadata(fromHTML: html, baseURL: baseURL)
-
-                article.title = content.title ?? metadata?.title ?? url.host ?? "Untitled"
-                article.author = content.author
-                article.coverImageUrl = metadata?.heroImage?.absoluteString
-                article.content = content.extractedText
-            } catch let urlError as URLError {
-                modelContext.delete(article)
-                switch urlError.code {
-                case .notConnectedToInternet, .networkConnectionLost:
-                    errorMessage = "No internet connection."
-                case .timedOut:
-                    errorMessage = "Request timed out."
-                case .cannotParseResponse:
-                    errorMessage = "Could not extract article content from this page."
-                default:
-                    errorMessage = "Network error. Please try again."
-                }
-                showErrorAlert = true
-            } catch {
-                modelContext.delete(article)
-                errorMessage = "Could not load article. Please check the URL and try again."
-                showErrorAlert = true
-            }
+            await ArticleImporter.importContent(for: article, context: modelContext)
         }
 
         urlString = ""

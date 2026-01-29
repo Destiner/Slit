@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct SlitApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([Article.self])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
@@ -24,7 +26,33 @@ struct SlitApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    importPendingURLs()
+                }
         }
         .modelContainer(sharedModelContainer)
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .active {
+                importPendingURLs()
+            }
+        }
+    }
+
+    @MainActor
+    private func importPendingURLs() {
+        let pendingURLs = SharedURLManager.getPendingURLs()
+        guard !pendingURLs.isEmpty else { return }
+
+        let context = sharedModelContainer.mainContext
+
+        for url in pendingURLs {
+            let article = Article(url: url, title: "Loading...")
+            context.insert(article)
+            SharedURLManager.removePendingURL(url)
+
+            Task {
+                await ArticleImporter.importContent(for: article, context: context)
+            }
+        }
     }
 }
