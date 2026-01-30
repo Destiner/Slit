@@ -120,6 +120,22 @@ struct ArticleListView: View {
         guard let url = URL(string: urlString) else {
             return
         }
+
+        let normalizedInput = URLNormalizer.normalize(url)
+
+        // Check for existing article with matching URL
+        if let existingArticle = articles.first(where: { article in
+            guard let articleUrl = article.url else { return false }
+            return URLNormalizer.normalize(articleUrl) == normalizedInput
+        }) {
+            // Reset progress for existing article
+            existingArticle.readingProgress = 0
+            existingArticle.readAt = nil
+            existingArticle.lastOpenedAt = nil
+            urlString = ""
+            return
+        }
+
         let article = Article(url: url, title: "Loading...")
         modelContext.insert(article)
 
