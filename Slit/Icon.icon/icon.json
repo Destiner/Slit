@@ -6,16 +6,8 @@
     {
       "layers" : [
         {
-          "glass" : true,
-          "image-name" : "Subtract-3.svg",
-          "name" : "Slit",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
+          "image-name" : "frame.svg",
+          "name" : "frame"
         }
       ],
       "shadow" : {
@@ -30,8 +22,8 @@
     {
       "layers" : [
         {
-          "image-name" : "Group 3-2.svg",
-          "name" : "Page"
+          "image-name" : "paper.svg",
+          "name" : "paper"
         }
       ],
       "shadow" : {
