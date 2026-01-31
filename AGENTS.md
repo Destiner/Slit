@@ -15,23 +15,22 @@ Targeting iOS 18+.
 - SwiftData as a persistence layer
 - Swift Testing as a test runner
 
-## Structure
+## Architecture
 
-- `Slit/SlitApp.swift`: app entry point, SwiftData container setup
-- `Slit/ContentView.swift`: root-level navigation stack
-- `Slit/ArticleListView.swift`: article list UI with CRUD operations
-- `Slit/ReadingView.swift`: speed reading display with gesture control
-- `Slit/Article.swift`: SwiftData model with reading progress tracking
-- `Slit/ArticleImporter.swift`: URL fetch and article content extraction
-- `Slit/HTMLTextExtractor.swift`: HTML-to-text with word boundary preservation
-- `Slit/ReadingPacer.swift`: dynamic WPM calculation based on word complexity
-- `Slit/WordSplitter.swift`: text-to-word array splitting
-- `Slit/URLNormalizer.swift`: URL canonicalization for deduplication
-- `Slit/SharedURLManager.swift`: App Group UserDefaults for Share Extension
-- `ShareExtension/`: iOS Share sheet integration
-- `SlitTests/`: unit tests (actively maintained)
+Feature-based MVVM. Each feature has `Models/`, `ViewModels/`, `Views/`, `DataSources/`, and `Utilities/` subdirectories as needed.
 
-The project uses SwiftUI + SwiftData patterns. Persistent data is stored in SwiftData models, and views use `@Query` and `@Environment(\.modelContext)` to access and modify data.
+- `Slit/Features/Articles/` — article list and management
+- `Slit/Features/Reading/` — speed reading display
+- `Slit/Shared/` — reusable components across features
+- `ShareExtension/` — iOS Share sheet integration
+- `SlitTests/` — unit tests
+
+### MVVM Pattern
+
+- **Views**: SwiftUI views with `@State private var viewModel`
+- **ViewModels**: `@Observable` classes containing business logic and state
+- **DataSources**: Handle SwiftData context operations, injected into ViewModels
+- **Models**: SwiftData `@Model` classes for persistence
 
 ## Targets
 
@@ -42,7 +41,7 @@ The project uses SwiftUI + SwiftData patterns. Persistent data is stored in Swif
 ## Build & Commands
 
 - Build: `xcodebuild -scheme Slit -destination 'generic/platform=iOS' build`
-- Unit tests: `xcodebuild -scheme Slit -destination 'platform=iOS Simulator,name=iPhone 16' test -only-testing:SlitTests`
+- Unit tests: `xcodebuild -scheme Slit -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:SlitTests`
 - Run on device: Use `xcrun devicectl list devices` to get device UUID, then `xcrun devicectl device install app --device <UUID> <BUILT_PRODUCTS_DIR>/Slit.app && xcrun devicectl device process launch --device <UUID> DestinerLabs.Slit`
 
 ## Dependencies
