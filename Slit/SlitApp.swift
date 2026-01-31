@@ -26,6 +26,7 @@ struct SlitApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(.light)
                 .onAppear {
                     importPendingURLs()
                 }
