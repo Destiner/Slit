@@ -25,17 +25,19 @@ class ArticleListViewModel {
         URL(string: urlString)?.scheme?.hasPrefix("http") == true
     }
 
-    func sortedArticles(_ articles: [Article]) -> [Article] {
-        articles.sorted { a, b in
-            if a.readingStatus.sortOrder != b.readingStatus.sortOrder {
-                return a.readingStatus.sortOrder < b.readingStatus.sortOrder
+    func filteredAndSortedArticles(_ articles: [Article]) -> [Article] {
+        articles
+            .filter { $0.readingStatus != .read }
+            .sorted { a, b in
+                if a.readingStatus.sortOrder != b.readingStatus.sortOrder {
+                    return a.readingStatus.sortOrder < b.readingStatus.sortOrder
+                }
+                return a.sortDate > b.sortDate
             }
-            return a.sortDate > b.sortDate
-        }
     }
 
     func deleteArticles(_ articles: [Article], at offsets: IndexSet) {
-        let sorted = sortedArticles(articles)
+        let sorted = filteredAndSortedArticles(articles)
         for index in offsets {
             dataSource.delete(sorted[index])
         }

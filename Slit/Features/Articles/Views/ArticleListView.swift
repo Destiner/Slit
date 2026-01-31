@@ -36,7 +36,7 @@ private struct ArticleListContent: View {
 
     var body: some View {
         List {
-            ForEach(viewModel.sortedArticles(articles)) { article in
+            ForEach(viewModel.filteredAndSortedArticles(articles)) { article in
                 NavigationLink(destination: ReadingView(article: article)) {
                     ArticleRowView(article: article)
                 }
