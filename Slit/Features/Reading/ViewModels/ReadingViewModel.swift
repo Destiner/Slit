@@ -46,6 +46,11 @@ class ReadingViewModel {
         return words[startIndex ..< endIndex].joined(separator: " ")
     }
 
+    var progress: Double {
+        guard words.count > 1 else { return 0 }
+        return Double(currentWordIndex) / Double(words.count - 1)
+    }
+
     func onAppear() {
         article.lastOpenedAt = .now
         startTimer()

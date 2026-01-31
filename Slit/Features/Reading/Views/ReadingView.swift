@@ -17,46 +17,58 @@ struct ReadingView: View {
     }
 
     var body: some View {
-        VStack(spacing: 24) {
-            VStack {
-                Spacer()
-                Text(viewModel.previousWordsText)
-                    .font(.system(size: 18))
-                    .foregroundStyle(.secondary)
+        GeometryReader { geometry in
+            VStack(spacing: 24) {
+                VStack {
+                    Spacer()
+                    Text(viewModel.previousWordsText)
+                        .font(.system(size: 18))
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+                        .opacity(viewModel.isPaused && !viewModel.previousWordsText.isEmpty ? 1 : 0)
+                }
+                .frame(height: 160)
+
+                Text(viewModel.currentWord)
+                    .font(.system(size: 48, weight: .medium))
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-                    .opacity(viewModel.isPaused && !viewModel.previousWordsText.isEmpty ? 1 : 0)
+                    .opacity(viewModel.isFinished ? 0.6 : 1.0)
+
+                Spacer()
+                    .frame(height: 160 + 24)
             }
-            .frame(height: 160)
-
-            Text(viewModel.currentWord)
-                .font(.system(size: 48, weight: .medium))
-                .multilineTextAlignment(.center)
-                .opacity(viewModel.isFinished ? 0.6 : 1.0)
-
-            Spacer()
-                .frame(height: 160 + 24)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .contentShape(Rectangle())
+            .animation(.easeInOut(duration: 0.2), value: viewModel.isPaused)
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in
+                        viewModel.handlePressStart()
+                    }
+                    .onEnded { _ in
+                        viewModel.handlePressEnd()
+                    }
+            )
+            .overlay(alignment: .bottom) {
+                Text("tap anywhere to start")
+                    .font(.system(size: 12, design: .monospaced))
+                    .foregroundStyle(.secondary)
+                    .opacity(viewModel.isPaused ? 1 : 0)
+                    .padding(.bottom, 50)
+            }
+            .overlay {
+                Rectangle()
+                    .fill(Color.purple)
+                    .frame(width: geometry.size.width * viewModel.progress, height: 2)
+                    .position(
+                        x: geometry.size.width * viewModel.progress / 2,
+                        y: geometry.size.height - 1
+                    )
+                    .opacity(viewModel.isPaused ? 1 : 0)
+            }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .contentShape(Rectangle())
-        .animation(.easeInOut(duration: 0.2), value: viewModel.isPaused)
-        .gesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    viewModel.handlePressStart()
-                }
-                .onEnded { _ in
-                    viewModel.handlePressEnd()
-                }
-        )
         .ignoresSafeArea()
-        .overlay(alignment: .bottom) {
-            Text("tap anywhere to start")
-                .font(.system(size: 12, design: .monospaced))
-                .foregroundStyle(.secondary)
-                .opacity(viewModel.isPaused ? 1 : 0)
-                .padding(.bottom, 50)
-        }
         .onAppear {
             viewModel.onAppear()
         }
