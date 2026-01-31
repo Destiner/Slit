@@ -51,9 +51,10 @@ struct ReadingView: View {
         )
         .ignoresSafeArea()
         .overlay(alignment: .bottom) {
-            Image(systemName: viewModel.isPaused ? "play.fill" : "pause.fill")
-                .font(.system(size: 24))
+            Text("tap anywhere to start")
+                .font(.system(size: 12, design: .monospaced))
                 .foregroundStyle(.secondary)
+                .opacity(viewModel.isPaused ? 1 : 0)
                 .padding(.bottom, 50)
         }
         .onAppear {
