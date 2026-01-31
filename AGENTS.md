@@ -54,3 +54,4 @@ Uses Swift Package Manager.
 
 - Prefer declarative programming
 - Don't use "legacy" frameworks like Combine and UIKit
+- Run `swiftformat .` before committing to format all Swift files
