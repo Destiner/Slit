@@ -44,6 +44,10 @@ Feature-based MVVM. Each feature has `Models/`, `ViewModels/`, `Views/`, `DataSo
 - Unit tests: `xcodebuild -scheme Slit -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:SlitTests`
 - Run on device: Use `xcrun devicectl list devices` to get device UUID, then `xcrun devicectl device install app --device <UUID> <BUILT_PRODUCTS_DIR>/Slit.app && xcrun devicectl device process launch --device <UUID> DestinerLabs.Slit`
 
+## Release
+
+See [docs/release.md](docs/release.md) for App Store release instructions.
+
 ## Dependencies
 
 Uses Swift Package Manager.
