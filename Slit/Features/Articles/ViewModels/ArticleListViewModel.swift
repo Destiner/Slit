@@ -63,26 +63,4 @@ class ArticleListViewModel {
 
         urlString = ""
     }
-
-    #if DEBUG
-        func importTestArticles() {
-            let testURLs = [
-                "https://archive.is/4epAD",
-                "https://www.darioamodei.com/essay/the-adolescence-of-technology",
-                "https://nadh.in/blog/code-is-cheap/",
-                "https://www.bbc.co.uk/news/articles/cwyv7211jljo",
-                "https://letters.thedankoe.com/p/how-to-fix-your-entire-life-in-1",
-            ]
-
-            for urlString in testURLs {
-                guard let url = URL(string: urlString) else { continue }
-                let article = Article(url: url, title: "Loading...")
-                dataSource.insert(article)
-
-                Task {
-                    await ArticleImporter.importContent(for: article, context: dataSource.context)
-                }
-            }
-        }
-    #endif
 }

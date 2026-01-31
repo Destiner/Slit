@@ -34,28 +34,29 @@ private struct ArticleListContent: View {
     @Bindable var viewModel: ArticleListViewModel
     let articles: [Article]
 
+    private var visibleArticles: [Article] {
+        viewModel.filteredAndSortedArticles(articles)
+    }
+
     var body: some View {
-        List {
-            ForEach(viewModel.filteredAndSortedArticles(articles)) { article in
-                NavigationLink(destination: ReadingView(article: article)) {
-                    ArticleRowView(article: article)
-                }
-            }
-            .onDelete { offsets in
-                viewModel.deleteArticles(articles, at: offsets)
-            }
-        }
-        .navigationTitle("Articles")
-        .toolbar {
-            #if DEBUG
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        viewModel.importTestArticles()
-                    }) {
-                        Label("Import Test Articles", systemImage: "arrow.down.circle")
+        Group {
+            if visibleArticles.isEmpty {
+                EmptyStateView()
+            } else {
+                List {
+                    ForEach(visibleArticles) { article in
+                        NavigationLink(destination: ReadingView(article: article)) {
+                            ArticleRowView(article: article)
+                        }
+                    }
+                    .onDelete { offsets in
+                        viewModel.deleteArticles(articles, at: offsets)
                     }
                 }
-            #endif
+            }
+        }
+        .navigationTitle(visibleArticles.isEmpty ? "" : "Articles")
+        .toolbar {
             ToolbarItem {
                 Button(action: {
                     viewModel.showAddAlert = true
@@ -153,6 +154,12 @@ private struct CircularProgressView: View {
                 .rotationEffect(.degrees(-90))
                 .animation(.easeInOut(duration: 0.3), value: progress)
         }
+    }
+}
+
+private struct EmptyStateView: View {
+    var body: some View {
+        ContentUnavailableView("No Articles", systemImage: "text.document")
     }
 }
 
