@@ -19,7 +19,7 @@ enum SharedURLManager {
         guard let defaults = sharedDefaults else { return }
         var urls = getPendingURLs()
         urls.append(url)
-        let urlStrings = urls.map { $0.absoluteString }
+        let urlStrings = urls.map(\.absoluteString)
         defaults.set(urlStrings, forKey: pendingURLsKey)
     }
 
@@ -40,7 +40,7 @@ enum SharedURLManager {
         guard let defaults = sharedDefaults else { return }
         var urls = getPendingURLs()
         urls.removeAll { $0 == url }
-        let urlStrings = urls.map { $0.absoluteString }
+        let urlStrings = urls.map(\.absoluteString)
         defaults.set(urlStrings, forKey: pendingURLsKey)
     }
 }

@@ -87,7 +87,7 @@ struct ReadingPacer {
         }
 
         // Numbers can be harder to process
-        if word.contains(where: { $0.isNumber }) {
+        if word.contains(where: \.isNumber) {
             multiplier += 0.15
         }
 

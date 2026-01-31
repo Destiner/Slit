@@ -12,7 +12,7 @@ import Reeeed
 extension ExtractedContent {
     /// Extracts plain text from HTML content, properly preserving word boundaries.
     var extractedText: String {
-        guard let content = content,
+        guard let content,
               let data = content.data(using: .utf8),
               let parsed = try? HTMLDocument(data: data)
         else {

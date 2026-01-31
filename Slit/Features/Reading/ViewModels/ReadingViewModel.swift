@@ -107,12 +107,12 @@ class ReadingViewModel {
         let interval = pacer.interval(for: currentWordIndex, rampIndex: wordsSinceResume)
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
             guard let self else { return }
-            if !self.isPaused {
-                self.advanceWord()
-                self.wordsSinceResume += 1
+            if !isPaused {
+                advanceWord()
+                wordsSinceResume += 1
             }
-            if self.currentWordIndex < self.words.count - 1 {
-                self.scheduleNextWord()
+            if currentWordIndex < words.count - 1 {
+                scheduleNextWord()
             } else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     self.isFinished = true

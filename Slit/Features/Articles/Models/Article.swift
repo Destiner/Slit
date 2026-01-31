@@ -37,31 +37,31 @@ final class Article {
 
         var sortOrder: Int {
             switch self {
-            case .inProgress: return 0
-            case .unread: return 1
-            case .read: return 2
+            case .inProgress: 0
+            case .unread: 1
+            case .read: 2
             }
         }
     }
 
     var readingStatus: ReadingStatus {
         if readAt != nil {
-            return .read
+            .read
         } else if readingProgress > 0 {
-            return .inProgress
+            .inProgress
         } else {
-            return .unread
+            .unread
         }
     }
 
     var sortDate: Date {
         switch readingStatus {
         case .inProgress:
-            return lastOpenedAt ?? createdAt
+            lastOpenedAt ?? createdAt
         case .unread:
-            return createdAt
+            createdAt
         case .read:
-            return readAt ?? createdAt
+            readAt ?? createdAt
         }
     }
 
