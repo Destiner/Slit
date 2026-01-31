@@ -5,8 +5,8 @@
 //  Created by Timur Badretdinov on 18/01/2026.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct SlitApp: App {

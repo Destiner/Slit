@@ -24,10 +24,10 @@ final class Article {
         self.url = url
         self.title = title
         self.content = content
-        self.createdAt = .now
-        self.readingProgress = 0
-        self.lastOpenedAt = nil
-        self.readAt = nil
+        createdAt = .now
+        readingProgress = 0
+        lastOpenedAt = nil
+        readAt = nil
     }
 
     enum ReadingStatus: Comparable {

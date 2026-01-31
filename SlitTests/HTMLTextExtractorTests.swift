@@ -5,14 +5,13 @@
 //  Tests for the fixed HTML text extraction that properly preserves word boundaries
 //
 
-import Testing
 import Foundation
-@testable import Slit
 import Reeeed
+@testable import Slit
+import Testing
 
 struct HTMLTextExtractorTests {
-
-    // Helper to create ExtractedContent from HTML
+    /// Helper to create ExtractedContent from HTML
     private func extractedContent(from html: String) -> ExtractedContent {
         ExtractedContent(content: html)
     }

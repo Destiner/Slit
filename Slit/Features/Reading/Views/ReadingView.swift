@@ -13,7 +13,7 @@ struct ReadingView: View {
     @State private var viewModel: ReadingViewModel
 
     init(article: Article) {
-        self._viewModel = State(initialValue: ReadingViewModel(article: article))
+        _viewModel = State(initialValue: ReadingViewModel(article: article))
     }
 
     var body: some View {

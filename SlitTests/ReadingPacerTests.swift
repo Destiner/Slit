@@ -5,12 +5,14 @@
 //  Created by Timur Badretdinov on 18/01/2026.
 //
 
-import Testing
 @testable import Slit
+import Testing
 
 struct ReadingPacerTests {
     let baseWPM: Double = 300
-    var baseInterval: Double { 60.0 / baseWPM }
+    var baseInterval: Double {
+        60.0 / baseWPM
+    }
 
     // MARK: - Basic functionality
 
@@ -38,9 +40,9 @@ struct ReadingPacerTests {
     @Test func rampUpDecreasesOverFirstFiveWords() {
         let words = Array(repeating: "word", count: 20)
         let pacer = ReadingPacer(words: words, baseWPM: baseWPM)
-        let intervals = (0..<5).map { pacer.interval(for: $0) }
+        let intervals = (0 ..< 5).map { pacer.interval(for: $0) }
         // Each successive word should be faster (smaller interval)
-        for i in 1..<5 {
+        for i in 1 ..< 5 {
             #expect(intervals[i] < intervals[i - 1])
         }
     }
@@ -58,9 +60,9 @@ struct ReadingPacerTests {
     @Test func rampDownIncreasesOverLastFiveWords() {
         let words = Array(repeating: "word", count: 20)
         let pacer = ReadingPacer(words: words, baseWPM: baseWPM)
-        let intervals = (15..<20).map { pacer.interval(for: $0) }
+        let intervals = (15 ..< 20).map { pacer.interval(for: $0) }
         // Each successive word should be slower (larger interval)
-        for i in 1..<5 {
+        for i in 1 ..< 5 {
             #expect(intervals[i] > intervals[i - 1])
         }
     }
@@ -73,8 +75,8 @@ struct ReadingPacerTests {
         // Compare at positions where ramp doesn't affect much (need longer array)
         let longWords = ["hi"] + Array(repeating: "word", count: 10) + ["extraordinary"] + Array(repeating: "word", count: 10)
         let longPacer = ReadingPacer(words: longWords, baseWPM: baseWPM)
-        let shortWordInterval = longPacer.interval(for: 6)  // "word" in middle
-        let longWordInterval = longPacer.interval(for: 11)   // "extraordinary"
+        let shortWordInterval = longPacer.interval(for: 6) // "word" in middle
+        let longWordInterval = longPacer.interval(for: 11) // "extraordinary"
         #expect(longWordInterval > shortWordInterval)
     }
 

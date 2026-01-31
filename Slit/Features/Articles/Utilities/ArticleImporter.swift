@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import SwiftData
 import Reeeed
+import SwiftData
 
-struct ArticleImporter {
+enum ArticleImporter {
     enum ImportError: Error {
         case noURL
         case networkError(String)

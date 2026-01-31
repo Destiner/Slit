@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SharedURLManager {
+enum SharedURLManager {
     static let appGroupIdentifier = "group.DestinerLabs.Slit"
     private static let pendingURLsKey = "pendingSharedURLs"
 
@@ -25,7 +25,8 @@ struct SharedURLManager {
 
     static func getPendingURLs() -> [URL] {
         guard let defaults = sharedDefaults,
-              let urlStrings = defaults.stringArray(forKey: pendingURLsKey) else {
+              let urlStrings = defaults.stringArray(forKey: pendingURLsKey)
+        else {
             return []
         }
         return urlStrings.compactMap { URL(string: $0) }

@@ -5,8 +5,8 @@
 //  Created by Timur Badretdinov on 18/01/2026.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct ArticleListView: View {
     @Environment(\.modelContext) private var modelContext
@@ -57,9 +57,9 @@ private struct ArticleListContent: View {
         }
         .alert("Add Article", isPresented: $viewModel.showAddAlert) {
             TextField("https://example.com", text: $viewModel.urlString)
-#if os(iOS)
+            #if os(iOS)
                 .keyboardType(.URL)
-#endif
+            #endif
             Button("Cancel", role: .cancel) { viewModel.urlString = "" }
             Button("Add") {
                 viewModel.addURL(existingArticles: articles)
@@ -67,7 +67,7 @@ private struct ArticleListContent: View {
             .disabled(!viewModel.isValidURL)
         }
         .alert("Failed to Load Article", isPresented: $viewModel.showErrorAlert) {
-            Button("OK", role: .cancel) { }
+            Button("OK", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage)
         }

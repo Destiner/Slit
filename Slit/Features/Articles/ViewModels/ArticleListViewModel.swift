@@ -5,8 +5,8 @@
 //  Created by Timur Badretdinov on 31/01/2026.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @Observable
 class ArticleListViewModel {

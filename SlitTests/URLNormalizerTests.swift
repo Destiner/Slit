@@ -5,8 +5,8 @@
 //  Created by Timur Badretdinov on 29/01/2026.
 //
 
-import Testing
 @testable import Slit
+import Testing
 
 struct URLNormalizerTests {
     @Test func removesTrailingSlash() {

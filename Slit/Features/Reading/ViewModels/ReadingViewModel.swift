@@ -23,7 +23,7 @@ class ReadingViewModel {
 
     init(article: Article) {
         self.article = article
-        self.currentWordIndex = article.readingProgress
+        currentWordIndex = article.readingProgress
     }
 
     var words: [String] {
@@ -43,7 +43,7 @@ class ReadingViewModel {
         let startIndex = max(0, currentWordIndex - 25)
         let endIndex = currentWordIndex
         guard startIndex < endIndex else { return "" }
-        return words[startIndex..<endIndex].joined(separator: " ")
+        return words[startIndex ..< endIndex].joined(separator: " ")
     }
 
     func onAppear() {

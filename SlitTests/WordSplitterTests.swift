@@ -5,8 +5,8 @@
 //  Created by Timur Badretdinov on 18/01/2026.
 //
 
-import Testing
 @testable import Slit
+import Testing
 
 struct WordSplitterTests {
     @Test func splitsSimpleText() {

@@ -14,7 +14,8 @@ extension ExtractedContent {
     var extractedText: String {
         guard let content = content,
               let data = content.data(using: .utf8),
-              let parsed = try? HTMLDocument(data: data) else {
+              let parsed = try? HTMLDocument(data: data)
+        else {
             return ""
         }
 
@@ -55,9 +56,10 @@ extension ExtractedContent {
 
                         // If current paragraph doesn't end with space and normalized doesn't start with space,
                         // and both have content, we need to check if a space is needed
-                        if !current.isEmpty &&
-                           !current.hasSuffix(" ") &&
-                           !normalized.hasPrefix(" ") {
+                        if !current.isEmpty,
+                           !current.hasSuffix(" "),
+                           !normalized.hasPrefix(" ")
+                        {
                             // Check if normalized starts with punctuation
                             let firstChar = normalized.trimmingCharacters(in: .whitespaces).first
                             let isPunctuation = firstChar.map {

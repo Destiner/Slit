@@ -9,7 +9,6 @@ import UIKit
 import UniformTypeIdentifiers
 
 class ShareViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
@@ -23,7 +22,8 @@ class ShareViewController: UIViewController {
 
     private func handleSharedItems() {
         guard let extensionItem = extensionContext?.inputItems.first as? NSExtensionItem,
-              let attachments = extensionItem.attachments else {
+              let attachments = extensionItem.attachments
+        else {
             completeRequest(success: false)
             return
         }
@@ -32,12 +32,13 @@ class ShareViewController: UIViewController {
 
         for attachment in attachments {
             if attachment.hasItemConformingToTypeIdentifier(urlType) {
-                attachment.loadItem(forTypeIdentifier: urlType, options: nil) { [weak self] item, error in
+                attachment.loadItem(forTypeIdentifier: urlType, options: nil) { [weak self] item, _ in
                     DispatchQueue.main.async {
                         if let url = item as? URL {
                             self?.saveURL(url)
                         } else if let urlData = item as? Data,
-                                  let url = URL(dataRepresentation: urlData, relativeTo: nil) {
+                                  let url = URL(dataRepresentation: urlData, relativeTo: nil)
+                        {
                             self?.saveURL(url)
                         } else {
                             self?.completeRequest(success: false)
@@ -52,11 +53,12 @@ class ShareViewController: UIViewController {
         let textType = UTType.plainText.identifier
         for attachment in attachments {
             if attachment.hasItemConformingToTypeIdentifier(textType) {
-                attachment.loadItem(forTypeIdentifier: textType, options: nil) { [weak self] item, error in
+                attachment.loadItem(forTypeIdentifier: textType, options: nil) { [weak self] item, _ in
                     DispatchQueue.main.async {
                         if let text = item as? String,
                            let url = URL(string: text),
-                           url.scheme?.hasPrefix("http") == true {
+                           url.scheme?.hasPrefix("http") == true
+                        {
                             self?.saveURL(url)
                         } else {
                             self?.completeRequest(success: false)
@@ -82,7 +84,7 @@ class ShareViewController: UIViewController {
         }
     }
 
-    private func completeRequest(success: Bool) {
+    private func completeRequest(success _: Bool) {
         extensionContext?.completeRequest(returningItems: nil)
     }
 }
