@@ -47,6 +47,15 @@ private struct ArticleListContent: View {
         }
         .navigationTitle("Articles")
         .toolbar {
+            #if DEBUG
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        viewModel.importTestArticles()
+                    }) {
+                        Label("Import Test Articles", systemImage: "arrow.down.circle")
+                    }
+                }
+            #endif
             ToolbarItem {
                 Button(action: {
                     viewModel.showAddAlert = true
@@ -109,7 +118,7 @@ private struct ArticleRowView: View {
                         Text(author)
                         Text("·")
                     }
-                    if let host = article.url?.host {
+                    if let host = article.url.host {
                         Text(host)
                     }
                 }

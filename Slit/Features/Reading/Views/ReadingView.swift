@@ -85,9 +85,8 @@ struct ReadingView: View {
 }
 
 #Preview {
-    let article = Article(title: "Sample", content: "This is a sample text for testing the speed reading view.")
-    return NavigationStack {
-        ReadingView(article: article)
+    NavigationStack {
+        ReadingView(article: Article(url: URL(string: "https://example.com")!, title: "Sample", content: "This is a sample text for testing the speed reading view."))
     }
     .modelContainer(for: Article.self, inMemory: true)
 }

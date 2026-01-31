@@ -18,10 +18,7 @@ enum ArticleImporter {
 
     @MainActor
     static func importContent(for article: Article, context: ModelContext) async {
-        guard let url = article.url else {
-            context.delete(article)
-            return
-        }
+        let url = article.url
 
         // Warm up extractors on main thread before starting
         Reeeed.warmup(extractor: .mercury)

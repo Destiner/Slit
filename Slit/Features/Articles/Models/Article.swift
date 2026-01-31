@@ -8,61 +8,65 @@
 import Foundation
 import SwiftData
 
+enum ReadingStatus: Codable, Comparable {
+    case unread(createdAt: Date)
+    case inProgress(progress: Int, lastOpenedAt: Date)
+    case read(readAt: Date)
+
+    var isRead: Bool {
+        if case .read = self { return true }
+        return false
+    }
+
+    var readingProgress: Int {
+        if case let .inProgress(progress, _) = self {
+            return progress
+        }
+        return 0
+    }
+
+    // MARK: - Comparable
+
+    /// Sort order: inProgress first, then unread, then read.
+    /// Within the same status, newer dates come first.
+    static func < (lhs: ReadingStatus, rhs: ReadingStatus) -> Bool {
+        if lhs.sortPriority != rhs.sortPriority {
+            return lhs.sortPriority < rhs.sortPriority
+        }
+        return lhs.date > rhs.date
+    }
+
+    private var sortPriority: Int {
+        switch self {
+        case .inProgress: 0
+        case .unread: 1
+        case .read: 2
+        }
+    }
+
+    private var date: Date {
+        switch self {
+        case let .inProgress(_, lastOpenedAt): lastOpenedAt
+        case let .unread(createdAt): createdAt
+        case let .read(readAt): readAt
+        }
+    }
+}
+
 @Model
 final class Article {
-    var url: URL?
+    var url: URL
     var title: String
     var author: String?
     var coverImageUrl: String?
     var content: String
-    var createdAt: Date
-    var readingProgress: Int
-    var lastOpenedAt: Date?
-    var readAt: Date?
+    var status: ReadingStatus
 
-    init(url: URL? = nil, title: String, content: String = "") {
+    init(url: URL, title: String, content: String = "") {
         self.url = url
         self.title = title
         self.content = content
-        createdAt = .now
-        readingProgress = 0
-        lastOpenedAt = nil
-        readAt = nil
-    }
-
-    enum ReadingStatus: Comparable {
-        case inProgress
-        case unread
-        case read
-
-        var sortOrder: Int {
-            switch self {
-            case .inProgress: 0
-            case .unread: 1
-            case .read: 2
-            }
-        }
-    }
-
-    var readingStatus: ReadingStatus {
-        if readAt != nil {
-            .read
-        } else if readingProgress > 0 {
-            .inProgress
-        } else {
-            .unread
-        }
-    }
-
-    var sortDate: Date {
-        switch readingStatus {
-        case .inProgress:
-            lastOpenedAt ?? createdAt
-        case .unread:
-            createdAt
-        case .read:
-            readAt ?? createdAt
-        }
+        status = .unread(createdAt: .now)
     }
 
     var wordCount: Int {
@@ -71,6 +75,6 @@ final class Article {
 
     var progress: Double {
         guard wordCount > 0 else { return 0 }
-        return Double(readingProgress) / Double(wordCount)
+        return Double(status.readingProgress) / Double(wordCount)
     }
 }

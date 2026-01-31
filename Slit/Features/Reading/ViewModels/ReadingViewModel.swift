@@ -24,7 +24,7 @@ class ReadingViewModel {
 
     init(article: Article) {
         self.article = article
-        currentWordIndex = article.readingProgress
+        currentWordIndex = article.status.readingProgress
     }
 
     var words: [String] {
@@ -53,7 +53,7 @@ class ReadingViewModel {
     }
 
     func onAppear() {
-        article.lastOpenedAt = .now
+        article.status = .inProgress(progress: currentWordIndex, lastOpenedAt: .now)
         startTimer()
     }
 
@@ -140,7 +140,7 @@ class ReadingViewModel {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     self.isFinished = true
                     self.isPaused = true
-                    self.article.readAt = .now
+                    self.article.status = .read(readAt: .now)
                 }
             }
         }
@@ -158,6 +158,8 @@ class ReadingViewModel {
     }
 
     private func saveProgress() {
-        article.readingProgress = currentWordIndex
+        if case let .inProgress(_, lastOpenedAt) = article.status {
+            article.status = .inProgress(progress: currentWordIndex, lastOpenedAt: lastOpenedAt)
+        }
     }
 }
