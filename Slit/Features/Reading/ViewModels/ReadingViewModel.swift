@@ -18,6 +18,7 @@ class ReadingViewModel {
     var wordsSinceResume: Int = 0
 
     private var timer: Timer?
+    private var lastActivatedTime: Date?
     private let article: Article
     private let wordsPerMinute: Double = 300
 
@@ -69,11 +70,25 @@ class ReadingViewModel {
 
     func onScenePhaseChange(isBackgroundOrInactive: Bool) {
         if isBackgroundOrInactive {
+            // Reset gesture state to prevent spurious events when returning
+            isHolding = false
+            pressStartTime = nil
             saveProgress()
+        } else {
+            // Mark when we became active to ignore spurious gesture events
+            lastActivatedTime = Date()
         }
     }
 
     func handlePressStart() {
+        // Ignore spurious gesture events that fire immediately after returning from background
+        // These events fire within ~50ms; real user taps take longer
+        if let lastActivated = lastActivatedTime,
+           Date().timeIntervalSince(lastActivated) < 0.1
+        {
+            return
+        }
+
         if !isHolding {
             isHolding = true
             pressStartTime = Date()
@@ -85,6 +100,9 @@ class ReadingViewModel {
     }
 
     func handlePressEnd() {
+        // Ignore if we didn't have a valid press start (e.g., spurious event after background)
+        guard isHolding else { return }
+
         let pressDuration = Date().timeIntervalSince(pressStartTime ?? Date())
         isHolding = false
         pressStartTime = nil
