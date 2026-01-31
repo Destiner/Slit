@@ -54,7 +54,7 @@ struct ReadingView: View {
                 Text("tap anywhere to start")
                     .font(.system(size: 12, design: .monospaced))
                     .foregroundStyle(.secondary)
-                    .opacity(viewModel.isPaused ? 1 : 0)
+                    .opacity(viewModel.isPaused && !viewModel.isFinished ? 1 : 0)
                     .padding(.bottom, 50)
             }
             .overlay {
@@ -75,8 +75,8 @@ struct ReadingView: View {
         .onDisappear {
             viewModel.onDisappear()
         }
-        .onChange(of: viewModel.isPaused) { _, _ in
-            viewModel.onPauseChange()
+        .onChange(of: viewModel.playbackState) { _, _ in
+            viewModel.onPlaybackStateChange()
         }
         .onChange(of: scenePhase) { _, phase in
             viewModel.onScenePhaseChange(isBackgroundOrInactive: phase == .background || phase == .inactive)

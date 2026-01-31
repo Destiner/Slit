@@ -9,18 +9,27 @@ import SwiftUI
 
 @Observable
 class ReadingViewModel {
+    enum PlaybackState {
+        case playing
+        case paused
+        case finished
+    }
+
+    struct HoldState {
+        let startTime: Date
+        let wasPlayingBefore: Bool
+    }
+
+    static let wordsPerMinute: Double = 300
+
     var currentWordIndex: Int = 0
-    var isPaused: Bool = true
-    var isFinished: Bool = false
-    var isHolding: Bool = false
-    var wasPlayingBeforeHold: Bool = false
-    var pressStartTime: Date?
+    var playbackState: PlaybackState = .paused
+    var holdState: HoldState?
     var wordsSinceResume: Int = 0
 
     private var timer: Timer?
     private var lastActivatedTime: Date?
     private let article: Article
-    private let wordsPerMinute: Double = 300
 
     init(article: Article) {
         self.article = article
@@ -32,7 +41,7 @@ class ReadingViewModel {
     }
 
     var pacer: ReadingPacer {
-        ReadingPacer(words: words, baseWPM: wordsPerMinute)
+        ReadingPacer(words: words, baseWPM: Self.wordsPerMinute)
     }
 
     var currentWord: String {
@@ -52,6 +61,14 @@ class ReadingViewModel {
         return Double(currentWordIndex) / Double(words.count - 1)
     }
 
+    var isPaused: Bool {
+        playbackState != .playing
+    }
+
+    var isFinished: Bool {
+        playbackState == .finished
+    }
+
     func onAppear() {
         article.status = .inProgress(progress: currentWordIndex, lastOpenedAt: .now)
         startTimer()
@@ -62,8 +79,8 @@ class ReadingViewModel {
         saveProgress()
     }
 
-    func onPauseChange() {
-        if isPaused {
+    func onPlaybackStateChange() {
+        if playbackState == .paused {
             saveProgress()
         }
     }
@@ -71,8 +88,7 @@ class ReadingViewModel {
     func onScenePhaseChange(isBackgroundOrInactive: Bool) {
         if isBackgroundOrInactive {
             // Reset gesture state to prevent spurious events when returning
-            isHolding = false
-            pressStartTime = nil
+            holdState = nil
             saveProgress()
         } else {
             // Mark when we became active to ignore spurious gesture events
@@ -89,35 +105,35 @@ class ReadingViewModel {
             return
         }
 
-        if !isHolding {
-            isHolding = true
-            pressStartTime = Date()
-            wasPlayingBeforeHold = !isPaused
-            if !isPaused {
-                isPaused = true
+        if holdState == nil {
+            holdState = HoldState(startTime: Date(), wasPlayingBefore: playbackState == .playing)
+            if playbackState == .playing {
+                playbackState = .paused
             }
         }
     }
 
     func handlePressEnd() {
         // Ignore if we didn't have a valid press start (e.g., spurious event after background)
-        guard isHolding else { return }
+        guard let hold = holdState else { return }
 
-        let pressDuration = Date().timeIntervalSince(pressStartTime ?? Date())
-        isHolding = false
-        pressStartTime = nil
+        let pressDuration = Date().timeIntervalSince(hold.startTime)
+        holdState = nil
+
+        // Don't allow resuming if finished
+        if playbackState == .finished { return }
 
         if pressDuration < 0.2 {
-            if wasPlayingBeforeHold {
+            if hold.wasPlayingBefore {
                 // Was playing, now stay paused (already paused in handlePressStart)
             } else {
                 wordsSinceResume = 0
-                isPaused = false
+                playbackState = .playing
             }
         } else {
-            if wasPlayingBeforeHold {
+            if hold.wasPlayingBefore {
                 wordsSinceResume = 0
-                isPaused = false
+                playbackState = .playing
             }
         }
     }
@@ -130,7 +146,7 @@ class ReadingViewModel {
         let interval = pacer.interval(for: currentWordIndex, rampIndex: wordsSinceResume)
         timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { [weak self] _ in
             guard let self else { return }
-            if !isPaused {
+            if playbackState == .playing {
                 advanceWord()
                 wordsSinceResume += 1
             }
@@ -138,8 +154,7 @@ class ReadingViewModel {
                 scheduleNextWord()
             } else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    self.isFinished = true
-                    self.isPaused = true
+                    self.playbackState = .finished
                     self.article.status = .read(readAt: .now)
                 }
             }

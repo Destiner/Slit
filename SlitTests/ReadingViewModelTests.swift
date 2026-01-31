@@ -5,12 +5,13 @@
 //  Created by Timur Badretdinov on 31/01/2026.
 //
 
+import Foundation
 @testable import Slit
 import Testing
 
 struct ReadingViewModelTests {
     private func makeViewModel() -> ReadingViewModel {
-        let article = Article(title: "Test", content: "One two three four five six seven eight nine ten")
+        let article = Article(url: URL(string: "https://example.com")!, title: "Test", content: "One two three four five six seven eight nine ten")
         return ReadingViewModel(article: article)
     }
 
@@ -20,7 +21,7 @@ struct ReadingViewModelTests {
         let vm = makeViewModel()
 
         // Start playing
-        vm.isPaused = false
+        vm.playbackState = .playing
 
         // User swipes to close - the swipe gesture touches the screen first
         vm.handlePressStart()
