@@ -59,12 +59,14 @@ final class Article {
     var title: String
     var author: String?
     var coverImageUrl: String?
+    var html: String
     var content: String
     var status: ReadingStatus
 
-    init(url: URL, title: String, content: String = "") {
+    init(url: URL, title: String, html: String = "", content: String = "") {
         self.url = url
         self.title = title
+        self.html = html
         self.content = content
         status = .unread(createdAt: .now)
     }

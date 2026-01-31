@@ -51,6 +51,7 @@ enum ArticleImporter {
             article.title = content.title ?? metadata?.title ?? url.host ?? "Untitled"
             article.author = content.author
             article.coverImageUrl = metadata?.heroImage?.absoluteString
+            article.html = content.content ?? ""
             article.content = content.extractedText
         } catch {
             context.delete(article)
