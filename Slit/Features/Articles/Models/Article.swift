@@ -11,7 +11,7 @@ import SwiftData
 @Model
 final class Article {
     enum ReadingStatus: Codable, Comparable {
-        case unread(createdAt: Date)
+        case unread(lastTouchedAt: Date)
         case inProgress(progress: Int, lastOpenedAt: Date)
         case read(readAt: Date)
 
@@ -49,7 +49,7 @@ final class Article {
         private var date: Date {
             switch self {
             case let .inProgress(_, lastOpenedAt): lastOpenedAt
-            case let .unread(createdAt): createdAt
+            case let .unread(lastTouchedAt): lastTouchedAt
             case let .read(readAt): readAt
             }
         }
@@ -68,7 +68,7 @@ final class Article {
         self.title = title
         self.html = html
         self.content = content
-        status = .unread(createdAt: .now)
+        status = .unread(lastTouchedAt: .now)
     }
 
     var wordCount: Int {

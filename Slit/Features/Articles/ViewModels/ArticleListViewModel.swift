@@ -48,7 +48,7 @@ class ArticleListViewModel {
         if let existingArticle = existingArticles.first(where: { article in
             URLNormalizer.normalize(article.url) == normalizedInput
         }) {
-            existingArticle.status = .unread(createdAt: .now)
+            existingArticle.status = .unread(lastTouchedAt: .now)
             dataSource.save()
             urlString = ""
             return

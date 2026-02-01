@@ -70,7 +70,14 @@ class ReadingViewModel {
     }
 
     func onAppear() {
-        article.status = .inProgress(progress: currentWordIndex, lastOpenedAt: .now)
+        switch article.status {
+        case .unread:
+            article.status = .unread(lastTouchedAt: .now)
+        case let .inProgress(progress, _):
+            article.status = .inProgress(progress: progress, lastOpenedAt: .now)
+        case .read:
+            break
+        }
         startTimer()
     }
 
@@ -129,12 +136,20 @@ class ReadingViewModel {
             } else {
                 wordsSinceResume = 0
                 playbackState = .playing
+                markInProgressIfNeeded()
             }
         } else {
             if hold.wasPlayingBefore {
                 wordsSinceResume = 0
                 playbackState = .playing
+                markInProgressIfNeeded()
             }
+        }
+    }
+
+    private func markInProgressIfNeeded() {
+        if case .unread = article.status {
+            article.status = .inProgress(progress: currentWordIndex, lastOpenedAt: .now)
         }
     }
 
