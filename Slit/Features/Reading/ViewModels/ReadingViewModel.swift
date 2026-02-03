@@ -9,7 +9,7 @@ import SwiftUI
 
 @Observable
 class ReadingViewModel {
-    enum PlaybackState {
+    enum PlaybackState: Sendable {
         case playing
         case paused
         case finished
