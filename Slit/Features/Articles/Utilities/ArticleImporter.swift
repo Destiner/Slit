@@ -35,14 +35,19 @@ enum ArticleImporter {
             }
             let baseURL = response.url ?? url
 
-            // Try Mercury first, then Readability as fallback
-            var extractedContent: ExtractedContent?
-            extractedContent = try? await Reeeed.extractArticleContent(url: baseURL, html: html, extractor: .mercury)
-            if extractedContent?.content == nil {
-                extractedContent = try? await Reeeed.extractArticleContent(url: baseURL, html: html, extractor: .readability)
-            }
+            // Extract with both Mercury and Readability, use whichever gets more content
+            let mercuryContent = try? await Reeeed.extractArticleContent(url: baseURL, html: html, extractor: .mercury)
+            let readabilityContent = try? await Reeeed.extractArticleContent(url: baseURL, html: html, extractor: .readability)
 
-            guard let content = extractedContent, content.content != nil else {
+            let mercuryLength = mercuryContent?.content?.count ?? 0
+            let readabilityLength = readabilityContent?.content?.count ?? 0
+
+            let content: ExtractedContent
+            if mercuryLength >= readabilityLength, mercuryLength > 0 {
+                content = mercuryContent!
+            } else if readabilityLength > 0 {
+                content = readabilityContent!
+            } else {
                 throw URLError(.cannotParseResponse)
             }
 
