@@ -15,7 +15,7 @@ Targeting iOS 18+.
 - SwiftData as a persistence layer
 - Swift Testing as a test runner
 
-## Architecture
+## Structure
 
 Feature-based MVVM. Each feature has `Models/`, `ViewModels/`, `Views/`, `DataSources/`, and `Utilities/` subdirectories as needed.
 
@@ -32,21 +32,20 @@ Feature-based MVVM. Each feature has `Models/`, `ViewModels/`, `Views/`, `DataSo
 - **DataSources**: Handle SwiftData context operations, injected into ViewModels
 - **Models**: SwiftData `@Model` classes for persistence
 
+Don't pass viewmodels to subviews — pass specific data (down) and callbacks (up).
+
 ## Targets
 
 - **Slit**: main app target
 - **SlitTests**: unit tests
 - **ShareExtension**: iOS share sheet integration for importing articles from other apps
 
-## Build & Commands
+## Commands
 
-- Build: `xcodebuild -scheme Slit -destination 'generic/platform=iOS' build`
-- Unit tests: `xcodebuild -scheme Slit -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:SlitTests`
-- Run on device: Use `xcrun devicectl list devices` to get device UUID, then `xcrun devicectl device install app --device <UUID> <BUILT_PRODUCTS_DIR>/Slit.app && xcrun devicectl device process launch --device <UUID> DestinerLabs.Slit`
-
-## Release
-
-See [docs/release.md](docs/release.md) for App Store release instructions.
+- `xcodebuild -scheme Slit -destination 'generic/platform=iOS' build` - Build the app
+- `xcodebuild -scheme Slit -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:SlitTests` - Run unit tests
+- `swiftformat .` - Format all Swift files
+- `asc` - App Store Connect CLI
 
 ## Dependencies
 
@@ -54,8 +53,21 @@ Uses Swift Package Manager.
 
 - **Reeeed** (https://github.com/nate-parrott/reeeed): article content extraction using Mercury and Readability extractors
 
-## Code Style
+## Patterns
 
 - Prefer declarative programming
-- Don't use "legacy" frameworks like Combine and UIKit
-- Run `swiftformat .` before committing to format all Swift files
+- Don’t use “legacy” frameworks like Combine and UIKit
+
+## SwiftUI APIs
+
+### Toolbar
+
+The app heavily uses `.toolbar` and `ToolbarItem` throughout the app as a go-to way to navigate between screens and toggle high-level views.
+
+### Navigation
+
+Prefer using `NavigationStack` and `NavigationLink` for all navigation activities.
+
+### Liquid Glass
+
+The app relies on some cutting-edge APIs, only available on iOS/macOS 26. Specifically, the app uses “liquid glass” — a new rendering mode for common UI controls (buttons, sheets, popups). There is a fallback available for toolbar item labels and `buttonStyle(.glass)` modifier.
