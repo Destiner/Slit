@@ -29,6 +29,7 @@ class ReadingViewModel {
 
     private var timer: Timer?
     private var lastActivatedTime: Date?
+    private var isInBackground: Bool = false
     private let article: Article
 
     init(article: Article) {
@@ -94,29 +95,45 @@ class ReadingViewModel {
 
     func onScenePhaseChange(isBackgroundOrInactive: Bool) {
         if isBackgroundOrInactive {
+            isInBackground = true
             if playbackState == .playing {
                 playbackState = .paused
             }
-            // Reset gesture state to prevent spurious events when returning
-            holdState = nil
+            // Don't clear holdState — the isInBackground flag and stale-gesture
+            // check in handlePressStart/End prevent unwanted resume. Clearing
+            // holdState here caused a race where gestures fired during the
+            // background→active transition would lose their state.
             saveProgress()
         } else {
-            // Mark when we became active to ignore spurious gesture events
+            isInBackground = false
             lastActivatedTime = Date()
         }
     }
 
     func handlePressStart() {
+        if isInBackground { return }
+
+        let now = Date()
+
         // Ignore spurious gesture events that fire immediately after returning from background
-        // These events fire within ~50ms; real user taps take longer
         if let lastActivated = lastActivatedTime,
-           Date().timeIntervalSince(lastActivated) < 0.1
+           now.timeIntervalSince(lastActivated) < 0.1
         {
             return
         }
 
+        // Clear stale holdState from a gesture that started before the last
+        // background transition (e.g., swipe-up to app switcher steals the
+        // gesture so onEnded never fires, leaving holdState orphaned)
+        if let hold = holdState,
+           let lastActivated = lastActivatedTime,
+           hold.startTime < lastActivated
+        {
+            holdState = nil
+        }
+
         if holdState == nil {
-            holdState = HoldState(startTime: Date(), wasPlayingBefore: playbackState == .playing)
+            holdState = HoldState(startTime: now, wasPlayingBefore: playbackState == .playing)
             if playbackState == .playing {
                 playbackState = .paused
             }
@@ -124,11 +141,17 @@ class ReadingViewModel {
     }
 
     func handlePressEnd() {
-        // Ignore if we didn't have a valid press start (e.g., spurious event after background)
         guard let hold = holdState else { return }
+        holdState = nil
+
+        if isInBackground { return }
+
+        // Ignore stale gestures from before the last background→active transition
+        if let lastActivated = lastActivatedTime, hold.startTime < lastActivated {
+            return
+        }
 
         let pressDuration = Date().timeIntervalSince(hold.startTime)
-        holdState = nil
 
         // Don't allow resuming if finished
         if playbackState == .finished { return }
