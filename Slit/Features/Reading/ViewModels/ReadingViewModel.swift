@@ -94,6 +94,9 @@ class ReadingViewModel {
 
     func onScenePhaseChange(isBackgroundOrInactive: Bool) {
         if isBackgroundOrInactive {
+            if playbackState == .playing {
+                playbackState = .paused
+            }
             // Reset gesture state to prevent spurious events when returning
             holdState = nil
             saveProgress()
