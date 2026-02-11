@@ -6,7 +6,7 @@
     {
       "layers" : [
         {
-          "image-name" : "Subtract.svg",
+          "image-name" : "Subtract 2.svg",
           "name" : "frame"
         }
       ],
@@ -21,10 +21,6 @@
     },
     {
       "layers" : [
-        {
-          "image-name" : "Rectangle 35.svg",
-          "name" : "line"
-        },
         {
           "image-name" : "paper.svg",
           "name" : "paper"
